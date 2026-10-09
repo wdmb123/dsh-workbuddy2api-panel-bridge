@@ -1,0 +1,18 @@
+# Register the WorkBuddy2API bridge provider.
+#
+# One row, one route: the plugin owns a pi-ai adapter pointed at your local
+# OpenAI-compatible gateway and registers it into the Harness LLM seam as the
+# `workbuddy2api` provider.
+#
+# Configuration lives in the plugin's own card (Settings -> WorkBuddy2API) and
+# is persisted to `~/.dsh/.workbuddy2api/config.json`, so this row stays a pure
+# routing entry. The optional `config:` block below acts as *defaults* that the
+# stored card values override field by field — uncomment to change what a fresh
+# install starts with.
+- insert:
+    - id: llm-workbuddy2api
+      name: dsh-workbuddy2api-panel-bridge
+      # config:
+      #   baseUrl: http://127.0.0.1:7863/v1
+      #   displayName: WorkBuddy2API
+      #   route: workbuddy2api

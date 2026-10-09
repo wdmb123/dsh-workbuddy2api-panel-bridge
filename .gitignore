@@ -1,0 +1,13 @@
+# Dependencies and build output — the plugin ships as plain source in lib/.
+node_modules/
+*.tgz
+
+# DSH runtime state. The gateway token lives in .workbuddy2api/config.json;
+# it must never enter the repository, here or under $DSH_HOME.
+.workbuddy2api/
+config.json
+*.bak
+
+# Editor and OS noise.
+.DS_Store
+*.swp
