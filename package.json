@@ -4,7 +4,7 @@
   "description": "把本机自托管的 WorkBuddy2API 反代网关（OpenAI 兼容 /v1）接进 DeepSeek Harness，作为可选的模型供应商；配置走一张卡片，不用改配置文件。",
   "version": "0.1.2",
   "license": "MIT",
-  "author": "local",
+  "author": "dsh-workbuddy2api-panel-bridge contributors",
   "keywords": [
     "dsh-plugin",
     "deepseek-harness",

@@ -194,9 +194,20 @@ node --check lib/index.js lib/client.js lib/bin.js
 
 `test/` 不随包发布（`files` 里没有它，但 git 检出里有），细节见 [test/README.md](./test/README.md)。
 
+## 版权声明
+
+Copyright (c) 2026 dsh-workbuddy2api-panel-bridge contributors
+
+- **开源协议**：MIT，与 **DeepSeek Harness** 自身使用的协议一致（DSH 桌面端声明 `"license": "MIT"`）。完整条款见 [LICENSE](./LICENSE)。
+- **开发方式**：本项目由 **DeepSeek Harness 结合 DeepSeek Flash 4.1 开发完成，没有人工参与**——设计、代码、测试与文档全部由 AI 生成。
+
+  *This project was developed by DeepSeek Harness together with DeepSeek Flash 4.1, with no human involvement.*
+
+- **商标与归属**：WorkBuddy、DeepSeek、DeepSeek Harness 等名称与商标归各自权利人所有；本项目与其权利人之间没有隶属、赞助或背书关系。
+
 ## 免责声明
 
-本项目仅供个人学习与研究使用，只驱动使用者自己已经搭好的本机网关。上游账号与接口的使用需遵守相应服务条款，由此产生的一切后果由使用者自行承担。本项目与腾讯、WorkBuddy、DeepSeek 均无关联。
+本项目仅供个人学习与研究使用，只驱动使用者自己已经搭好的本机网关。上游账号与接口的使用需遵守相应服务条款，由此产生的一切后果由使用者自行承担。
 
 ## 许可证
 
