@@ -1,5 +1,8 @@
 # DSH WorkBuddy2API Panel Bridge
 
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![repo](https://img.shields.io/badge/GitHub-wdmb123%2Fdsh--workbuddy2api--panel--bridge-181717.svg)](https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge)
+
 把你自己搭的 **WorkBuddy2API 反代网关**（OpenAI 兼容 `/v1`）接进 **DeepSeek Harness**，作为模型选择器里的一条供应商路由。
 
 装完之后不用碰任何配置文件：地址、密钥、模型清单、开关，全在 **设置 → WorkBuddy2API** 那张卡片上。
@@ -46,14 +49,14 @@ curl -s http://127.0.0.1:7863/v1/models -H "Authorization: Bearer <你的 api_ke
 
 **方式一 · 图形界面（推荐，desktop profile 只能走这条）**
 
-在 DSH 的插件 / 扩展面板里安装 bundle，填本仓库的地址（`github:<owner>/<repo>` 或 git URL），安装后重启 DSH。
+在 DSH 的插件 / 扩展面板里安装 bundle，填本仓库的地址 `github:wdmb123/dsh-workbuddy2api-panel-bridge`（等价的 git URL：`https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge.git`），安装后重启 DSH。
 
 > desktop profile 由 Electron 独占：`dsh plugin --profile desktop …` 会直接报 `profile "desktop" is managed exclusively by the Electron application`。所以桌面版请用界面装。
 
 **方式二 · 命令行**
 
 ```sh
-dsh plugin --profile <profile> add git+https://github.com/<owner>/dsh-workbuddy2api-panel-bridge.git
+dsh plugin --profile <profile> add git+https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge.git
 
 # 或者本地目录 / tarball
 dsh plugin --profile <profile> add /path/to/dsh-workbuddy2api-panel-bridge

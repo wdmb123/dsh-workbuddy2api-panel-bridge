@@ -65,14 +65,14 @@ cat "${DSH_HOME:-$HOME/.dsh}/profiles/$PROFILE/package.json"
 
 ### 2.2 路径 A —— 图形界面（**desktop profile 只能走这条**）
 
-在 DSH 的插件 / 扩展面板里安装 bundle，填仓库地址（`github:<owner>/<repo>` 或 git URL）。装完重启 DSH。
+在 DSH 的插件 / 扩展面板里安装 bundle，填仓库地址 `github:wdmb123/dsh-workbuddy2api-panel-bridge`（等价 git URL：`https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge.git`）。装完重启 DSH。
 
 CLI 对 desktop 是硬拦截的，不要试图绕过：那不是权限提示，是 Electron 应用自己管着这个 profile。
 
 ### 2.3 路径 B —— 命令行（web / tui / 自定义 profile）
 
 ```sh
-dsh plugin --profile "$PROFILE" add git+https://github.com/<owner>/dsh-workbuddy2api-panel-bridge.git
+dsh plugin --profile "$PROFILE" add git+https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge.git
 ```
 
 其它等价形态：

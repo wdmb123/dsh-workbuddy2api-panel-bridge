@@ -5,6 +5,14 @@
   "version": "0.1.2",
   "license": "MIT",
   "author": "dsh-workbuddy2api-panel-bridge contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge.git"
+  },
+  "homepage": "https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge#readme",
+  "bugs": {
+    "url": "https://github.com/wdmb123/dsh-workbuddy2api-panel-bridge/issues"
+  },
   "keywords": [
     "dsh-plugin",
     "deepseek-harness",
