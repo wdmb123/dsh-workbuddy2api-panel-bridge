@@ -180,6 +180,7 @@ curl -s http://127.0.0.1:<dsh-web-port>/plugins/dsh-workbuddy2api-panel-bridge/s
 | 卡片显示「宿主侧路由未挂载」 | 插件在跑但同源路由没注册上（多为 webServer 缺失） | 正常降级，模型仍可用；要卡片就换带 Web 的 profile |
 | 请求报 `Provider is not configured: workbuddy2api`（`PI_AI_ERROR`） | **不是路由问题**，是这条 provider 没解析出凭据 → 就是密钥没保存（`apiKeySet: false`） | 写 `apiKey` 进配置文件（§3）或让用户去卡片填，**不用重启**，下个请求就生效 |
 | 请求报 `MISSING_CREDENTIAL` | 插件自己的预检（比上面那句多了「该去哪填」） | 同上 |
+| 重启后目录里某个模型不见了 | 上游 `/v1/models` 不再返回它，启动同步以网关答案为准把它删掉了（日志会记一行 dropped） | 正常行为；确实还要用它就换一个上游仍然返回的 id |
 | 模型列表只有 1 个（种子） | 从没探测成功过 | 查网关连通性与密钥，然后「从网关刷新」或重启 |
 | 卡片空白 / 报错 | 该 profile 缺 `settings.section` 这类客户端插槽 | 模型路由不受影响；告知用户该 profile 的 Web 端不完整 |
 | 装完毫无变化 | 没重启；或装到了别的 profile | 重启，并核对 `$DSH_HOME/profiles/<name>` |

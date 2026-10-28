@@ -19,7 +19,7 @@ sh test/bootstrap.sh /tmp/xxx     # 换目录
 | `suite/e2e.test.mjs` | 真起一个假网关 + 假 cordis ctx，驱动插件注册的 5 条路由：能力→模型描述符、思考档位、图片模态、`resolveAttachments` 接线、带图流式、`/models` 合并、`/reset`、guard（方法/Origin/体积）、探针失败不漏 token、探针路由返回报告而非状态文档 |
 | `suite/client.test.mjs` | 以源码断言方式测客户端 bundle：模型开关方向、刷新带 `keepMissing: false`、动作完成后统一重读 `/status`（不再把探测报告当状态） |
 | `suite/cli.test.mjs` | `lib/bin.js` 参数解析：旗标在子命令前后都要work、`--json` 不吞子命令、未知子命令退出码 |
-| `suite/live-check.mjs` | 对**真实**网关（127.0.0.1:7863）跑 12 项：探测→目录→模型描述符→真实流式返回→刷新落盘。密钥从 `~/.dsh/.workbuddy2api/config.json` 读，用临时 `DSH_HOME`，不会动真实配置 |
+| `suite/live-check.mjs` | 对**真实**网关（127.0.0.1:7863）跑 13 项：探测→目录→模型描述符→真实流式返回→刷新落盘。密钥从 `~/.dsh/.workbuddy2api/config.json` 读，用临时 `DSH_HOME`，不会动真实配置 |
 
 ## 改动插件源码后必须重建
 

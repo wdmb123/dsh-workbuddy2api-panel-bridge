@@ -195,6 +195,49 @@ test('reset clears the file and re-discovers with metadata', async (t) => {
   assert.ok(Array.isArray(stored.models), 'reset must persist the re-discovered catalog too')
 })
 
+test('a model the gateway stopped serving is dropped on the next boot', async (t) => {
+  // The catalog must not outlive the gateway's own list: an id the upstream
+  // deleted has to disappear from the file, and its deny-list entry with it.
+  // One gateway for both boots: the stored baseUrl points at it, and mutating
+  // the array it serves is how "the upstream deleted a model" is simulated.
+  const served = [...sampleModels()]
+  await useTempHome()
+  const gateway = await startGateway({ models: served, apiKey: 'sk-test' })
+  t.after(() => gateway.close())
+
+  /** Every apply() is a fresh boot reading the same file. */
+  const bootHere = async () => {
+    const { ctx, routes } = makeCtx()
+    apply(ctx, { baseUrl: gateway.url, apiKey: 'sk-test' })
+    await waitFor(() => routes.size === 5)
+    const bridge = await serveRoutes(routes)
+    t.after(() => bridge.close())
+    await waitFor(async () => (await (await bridge.get(ROUTES.status)).json()).models.length > 0)
+    return bridge
+  }
+
+  const first = await bootHere()
+  await first.post(ROUTES.config, { hiddenModels: ['cn:plain-text'] })
+  await first.close()
+
+  served.splice(
+    served.findIndex((model) => model.id === 'cn:plain-text'),
+    1,
+  )
+  const bridge = await bootHere()
+  const status = await (await bridge.get(ROUTES.status)).json()
+  const ids = status.models.map((model) => model.id)
+  assert.ok(!ids.includes('cn:plain-text'), 'a boot must drop an id the gateway no longer serves')
+  assert.equal(ids.length, sampleModels().length - 1)
+
+  const stored = JSON.parse(await readFile(configFilePath(), 'utf8'))
+  assert.ok(!stored.models.some((model) => model.id === 'cn:plain-text'), 'the drop must be persisted')
+  assert.ok(
+    !(stored.hiddenModels ?? []).includes('cn:plain-text'),
+    'the deny-list must not keep an id that is no longer in the catalog',
+  )
+})
+
 test('guards: method, origin and body validity', async (t) => {
   const app = await boot()
   t.after(() => app.close())

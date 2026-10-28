@@ -49,6 +49,29 @@ test('refreshing the catalog mirrors the gateway instead of keeping stale models
   assert.match(call, /keepMissing: false/)
 })
 
+test('the catalog card counts every model and the enabled ones', () => {
+  // Two numbers answer "is anything missing / is anything switched off", so the
+  // card must derive both from the same status list the rows come from.
+  const countExpression = lift(
+    /const enabledCount = ([\s\S]*?)\n\s*const disabledCount = /,
+    'the enabled model count',
+  )
+  const disabledExpression = lift(/const disabledCount = ([\s\S]*?)\n/, 'the disabled model count')
+  const counts = new Function(
+    'models',
+    `const enabledCount = ${countExpression}; const disabledCount = ${disabledExpression}; return { enabledCount, disabledCount }`,
+  )
+
+  const models = [
+    { id: 'a' },
+    { id: 'b', enabled: true },
+    { id: 'c', enabled: false },
+  ]
+  assert.equal(models.length, 3, 'the total shown is the length of the status list')
+  assert.deepEqual(counts(models), { enabledCount: 2, disabledCount: 1 }, 'a model without an explicit flag counts as enabled')
+  assert.deepEqual(counts([]), { enabledCount: 0, disabledCount: 0 })
+})
+
 test('backend behaviour the toggles rely on', async () => {
   // The host half must read `hiddenModels` as an exact list, not a toggle.
   const host = await readFile(new URL('../plugin/lib/index.js', import.meta.url), 'utf8')

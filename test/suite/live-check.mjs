@@ -13,7 +13,7 @@
 // Run: node <scratch>/live-check.mjs
 // The plugin itself runs against a temp DSH_HOME, so the real config is only read.
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { apply, configFilePath } from './plugin/lib/index.js'
@@ -102,6 +102,24 @@ check('the refreshed catalog was persisted with real capabilities', () => {
 })
 check('no apiKey leaked into the probe report', () =>
   assert.equal(JSON.stringify(refreshed).includes(KEY), false))
+
+// The upstream really does delete models. A catalog that keeps a vanished id
+// offers a model nobody can call, so the boot sync has to drop it — plant one in
+// the persisted file and reboot to prove the real code path prunes it.
+const planted = JSON.parse(await readFile(configFilePath(), 'utf8'))
+planted.models.push({ ...storedSample, id: 'stale:deleted-upstream' })
+await writeFile(configFilePath(), JSON.stringify(planted, null, 2))
+const reboot = makeCtx()
+apply(reboot.ctx, { baseUrl: GATEWAY, apiKey: KEY })
+await waitFor(() => reboot.registrations.length > 0)
+const rebootBridge = await serveRoutes(reboot.routes)
+const rebootStatus = await (await rebootBridge.get('/plugins/dsh-workbuddy2api-panel-bridge/status')).json()
+await rebootBridge.close()
+check('a model the upstream deleted is pruned on the next boot', () => {
+  const ids = (rebootStatus.models ?? []).map((model) => model.id)
+  assert.equal(ids.includes('stale:deleted-upstream'), false, 'the stale id survived the boot sync')
+  assert.deepEqual(ids.sort(), [...advertised].sort())
+})
 
 await bridge.close()
 console.log(`\n${ok.length}/${ok.length} live checks passed:`)
